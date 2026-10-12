@@ -64,7 +64,7 @@ INSERT INTO lot (lot_id, product_name, lot_status, create_dt) VALUES
 -- 4. REQUEST TABLE
 --    Stores transport requests between stations
 -- ============================================================
-CREATE TABLE request_table (
+CREATE TABLE request_details (
     request_id VARCHAR(50) PRIMARY KEY,
     operating_start_dt DATETIME,
     operating_end_dt DATETIME,
@@ -80,7 +80,7 @@ CREATE TABLE request_table (
 );
 
 -- Insert sample requests
-INSERT INTO request_table (request_id, operating_start_dt, operating_end_dt,
+INSERT INTO request_details (request_id, operating_start_dt, operating_end_dt,
                            equip_id, target_location, home_location, request_state) VALUES
 ('REQ0001', GETDATE(), NULL, 'AGV001', 'NPI01', 'PL01', 'PENDING'),
 ('REQ0002', GETDATE(), NULL, 'AGV001', 'NPI02', 'PL03', 'PENDING');
@@ -101,7 +101,7 @@ CREATE TABLE event_history (
     event_type VARCHAR(50),
     time_taken_seconds INT,
     -- Foreign keys
-    FOREIGN KEY (request_id) REFERENCES request_table(request_id),
+    FOREIGN KEY (request_id) REFERENCES request_details(request_id),
     FOREIGN KEY (equip_id) REFERENCES equipment(equip_id),
     FOREIGN KEY (source_location) REFERENCES station(station_id),
     FOREIGN KEY (destination_location) REFERENCES station(station_id)
@@ -123,7 +123,7 @@ INSERT INTO event_history (event_id, request_id, equip_id, start_dt, end_dt,
 -- ============================================================
 CREATE INDEX IX_equip_current_lot ON equipment(current_lot_id);
 CREATE INDEX IX_equip_current_station ON equipment(current_station_id);
-CREATE INDEX IX_request_equip ON request_table(equip_id);
+CREATE INDEX IX_request_equip ON request_details(equip_id);
 CREATE INDEX IX_event_request ON event_history(request_id);
 CREATE INDEX IX_event_equip ON event_history(equip_id);
 
