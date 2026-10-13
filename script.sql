@@ -136,7 +136,7 @@ ALTER TABLE equipment
 ADD CONSTRAINT CK_equip_state CHECK (current_equip_state IN ('IDLE', 'MOVING', 'CHARGING', 'MAINTENANCE'));
 
 -- Request states
-ALTER TABLE request_table
+ALTER TABLE request_details
 ADD CONSTRAINT CK_request_state CHECK (request_state IN ('PENDING', 'ASSIGNED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED'));
 
 -- Event types
